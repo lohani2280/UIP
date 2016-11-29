@@ -10,4 +10,7 @@ before_script:
 
 script:
   - coala-ci
-  - pytest
+  - pytest --cov
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
