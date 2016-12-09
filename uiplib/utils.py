@@ -11,7 +11,9 @@ def get_percentage(unew, uold, start):
     del_time = (time.time()-float(start))
     if del_time != 0:
         return 100 * ((float(unew) - float(uold)) / del_time)
-    return 100
+    return 100  # pragma: no cover
+    # It is highly unlikely to reach here
+    # Since even time.time() - time.time() never returns zero
 
 
 def make_dir(dirpath):
@@ -20,7 +22,7 @@ def make_dir(dirpath):
         os.chmod(dirpath, 0o777)
 
 
-def exit_UIP():
+def exit_UIP():  # pragma: no cover
     pid_file = os.path.join(HOME_DIR, 'daemon-uip.pid')
     if os.path.exists(pid_file):
         send(pid_file, SIGTERM)
@@ -28,10 +30,9 @@ def exit_UIP():
     print("\nExiting UIP hope you had a nice time :)")
     sys.exit(0)
 
+
 # Class to create threads for get_images
-
-
-class onlineFetch(Thread):
+class onlineFetch(Thread):  # pragma: no cover
 
     def __init__(self, url, directory, count):
         Thread.__init__(self)
@@ -43,12 +44,16 @@ class onlineFetch(Thread):
         get_images(self.url, self.directory, self.count)
 
 
+def get_current_version():  # pragma: no cover
+    return sys.version_info
+
+
 def check_version():
     """Check for the version of python interpreter"""
     # Required version of python interpreter
     req_version = (3, 5)
     # Current version of python interpreter
-    curr_version = sys.version_info
+    curr_version = get_current_version()
 
     # Exit if minimum requirements are not met
     if curr_version < req_version:
