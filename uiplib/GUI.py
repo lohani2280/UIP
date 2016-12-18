@@ -1,5 +1,6 @@
 from uiplib.scheduler import scheduler
 from uiplib.setWallpaper import change_background
+from uiplib.settings import DEFAULT_SETTINGS
 from uiplib.utils.utils import update_settings
 from tkinter import *
 from tkinter import filedialog
@@ -51,7 +52,7 @@ class MainWindow:
         self.root = Tk()
         self.root.resizable(width=False, height=False)
         # set window title
-        self.root.title("UIP")
+        self.root.title("WIN")
         # self.root.wm_iconbitmap() sets icon bitmap
         self.queue = Queue()
         self.index = 0
@@ -125,6 +126,13 @@ class MainWindow:
                               text="Apply",
                               command=self.handle_settings)
         apply_button.grid(row=6, column=1, pady=20, sticky=W)
+
+         # Reset
+        default_button = Button(mainFrame,
+                                text="Default",                    
+                                command=self.default_settings)
+
+        default_button.grid(row=7, column=1, pady=10, sticky=W) 
 
     def create_general_tab(self):
         general_width = 1000
@@ -272,6 +280,15 @@ class MainWindow:
             messagebox.showwarning("AttributeError",
                                    "Invalid value for no of images")
             return
+        update_settings(self.new_settings)
+
+    def default_settings(self):
+        self.new_settings['pics-folder'] = DEFAULT_SETTINGS['pics-folder']
+        self.new_settings['website'] = DEFAULT_SETTINGS['website']
+        self.new_settings['timeout'] = DEFAULT_SETTINGS['timeout']
+        self.new_settings['no-of-images'] = DEFAULT_SETTINGS['no-of-images']
+        
+        return 
         update_settings(self.new_settings)
 
     def retrieve_textbox_input(self, textbox):
